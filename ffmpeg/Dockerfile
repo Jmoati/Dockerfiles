@@ -1,6 +1,5 @@
-FROM nginx:stable-alpine
+FROM alpine
 MAINTAINER Jacques Moati <jacques@moati.net>
-
 
 RUN cd /tmp && \
     wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \

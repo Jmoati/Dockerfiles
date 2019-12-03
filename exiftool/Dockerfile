@@ -1,10 +1,12 @@
-FROM nginx:stable-alpine
+FROM alpine
 MAINTAINER Jacques Moati <jacques@moati.net>
 
 
+ARG VERSION=11.77
+
 RUN cd /tmp && \
     apk --update add perl && \
-    wget https://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.69.tar.gz && \
+    wget https://exiftool.org/Image-ExifTool-$VERSION.tar.gz && \
     tar -xzvf Image-ExifTool-*.tar.gz && \
     rm -rf Image-ExifTool-*.tar.gz && \
     cd Image-ExifTool-* && \
