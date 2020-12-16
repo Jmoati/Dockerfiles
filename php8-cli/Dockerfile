@@ -4,7 +4,7 @@ MAINTAINER Jacques Moati <jacques@moati.net>
 WORKDIR /tmp
 
 RUN apk --update upgrade && \
-    apk add alpine-sdk autoconf rabbitmq-c-dev libzip-dev icu-dev bash git unzip && \
+    apk add alpine-sdk autoconf rabbitmq-c-dev libzip-dev icu-dev bash git unzip libgomp && \
     pecl install redis && \
     docker-php-ext-install -j$(nproc) bcmath exif intl opcache pcntl sockets zip calendar && \
     git clone https://github.com/pdezwart/php-amqp.git && \
