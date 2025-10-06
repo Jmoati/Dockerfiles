@@ -1,12 +1,20 @@
 FROM php:fpm
-MAINTAINER Jacques Moati <jacques@moati.net>
 
-RUN apt-get update
-RUN apt-get install -y ufraw libzip-dev libpng-dev libfreetype6-dev libicu-dev libpcre2-dev libtool librabbitmq-dev libmagick++-dev imagemagick libpq-dev
-RUN docker-php-ext-configure gd --with-jpeg
-RUN docker-php-ext-install gd bcmath exif intl opcache pcntl sockets zip pdo_mysql calendar mysqli pdo_pgsql
-RUN pecl install imagick redis amqp
-RUN docker-php-ext-enable imagick amqp redis
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  git unzip pkg-config \
+  libonig-dev \
+  libzip-dev libicu-dev libxslt1-dev libpq-dev \
+  libjpeg62-turbo-dev libpng-dev libfreetype6-dev \
+  librabbitmq-dev libmagickwand-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-jpeg --with-freetype \
+ && docker-php-ext-install -j$(nproc) \
+    gd intl opcache pdo pdo_mysql pdo_pgsql zip mbstring exif xsl bcmath pcntl sockets mysqli
+
+
+RUN pecl install imagick && docker-php-ext-enable imagick \
+ && pecl install amqp && docker-php-ext-enable amqp
 
 COPY php.ini /usr/local/etc/php/
 
